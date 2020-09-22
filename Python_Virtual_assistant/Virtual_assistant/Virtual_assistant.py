@@ -33,7 +33,8 @@ import clint
 import shutil
 import tkinter
 import ctypes
-
+import requests
+from newsapi import NewsApiClient
 from twilio.rest import Client
 from clint.textui import progress
 import win32com.client as wincl
@@ -108,8 +109,8 @@ def takeCommand():
         r=sr.Recognizer()
         with sr.Microphone() as source:
           try:
-              
-           
+            clear = lambda: os.system('cls')  
+            clear()
             print("Listening.....")
             r.pause_threshold =1 #how many seconds it will wait
             audio = r.listen(source)
@@ -156,9 +157,29 @@ def wakeWord(name):
              speak(f'Whats up')
              speak('How may I help you?')
             
-# If the wake word is not in the name loop and so it returns False
-     
+def exit():
+    return exit()
+    
+   
+def goTube():
+    youTube= webbrowser.open("https://www.youtube.com")
+    return youTube
 
+def formRecognizer():
+    # will incorporate FormOCR... Stay tuned
+    return "Still working on that one. Hit me up in a week!"
+
+
+def goSpotify():
+    spotify= webbrowser.open("https://www.spotify.com")
+    return spotify
+
+def news():
+    
+    top_headlines = webbrowser.open("https://news.google.com/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGRqTVhZU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US%3Aen")
+    speak("Here is a list of the latest Tech news")
+    return top_headlines
+    
 
 # main fuction#
 if __name__ == '__main__': 
@@ -176,16 +197,31 @@ if __name__ == '__main__':
         
     
     while True:
-        clear()
+        
         query=takeCommand().lower
         if(wakeWord(name)=="yes"):
                     print ('you said the wake word')
         elif("what is the date" in name):
                print (getDays())
                speak (getDays()) #works
-        elif("what is the time"in name):
+        elif("what is the time"in name or 'whats the time' in name):
                print (getTime())
                speak (getTime())
+        elif("shut down"in name):
+                   speak('Ok, I will shut down. Goodbye! ')
+                   speak(exit())
+        elif("YouTube"in name):
+                   speak(goTube())
+                   
+        elif("play music"in name):
+                   speak(goSpotify())
+                   
+        elif("read my document"in name):
+                    speak(formRecognizer())
+        elif("what is the latest news in Tech"in name):
+                    speak(news())
+                    
+
 
      
     #pause to access new tree
@@ -195,7 +231,7 @@ if __name__ == '__main__':
     
 
             
-exit()
+
     
 
 
